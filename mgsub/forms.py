@@ -1,5 +1,6 @@
 import logging
 
+import six
 from django import forms
 from django.conf import settings
 from django.template import Context
@@ -56,6 +57,9 @@ class SignupForm(forms.Form):
                                    'mgsub/welcome.html')
         welcome_plain = getattr(settings, 'MGSUB_WELCOME_TEMPLATE_PLAIN',
                                 'mgsub/welcome.txt')
+
+        if reply_to is not None and isinstance(reply_to, six.string_types):
+            reply_to = [reply_to]
 
         context = Context()
 
