@@ -2,9 +2,9 @@
 
 import os
 import versioneer
-from setuptools import setup
-from pip.req import parse_requirements
 from pip.download import PipSession
+from pip.req import parse_requirements
+from setuptools import setup
 
 
 def get_requirements(filename):
@@ -13,6 +13,22 @@ def get_requirements(filename):
 
     install_reqs = parse_requirements(filename, session=PipSession())
     return [str(ir.req) for ir in install_reqs]
+
+
+def get_package_data(package):
+    """
+    Return all files under the root package, that are not in a
+    package themselves.
+    """
+    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
+            for dirpath, dirnames, filenames in os.walk(package)
+            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+    filepaths = []
+    for base, filenames in walk:
+        filepaths.extend([os.path.join(base, filename)
+                          for filename in filenames])
+    return {package: filepaths}
+
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -27,6 +43,9 @@ setup(name='django-mgsub',
       install_requires=get_requirements('requirements.txt'),
       tests_require=get_requirements('development.txt'),
       packages=['mgsub'],
+      package_data=get_package_data('mgsub'),
+      include_package_data=True,
+      zip_safe=False,
       url='https://github.com/codetry/mgsub/',
       license='MIT License',
       classifiers=[
