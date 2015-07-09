@@ -38,7 +38,7 @@ class MailgunList(object):
             raise ImproperlyConfigured('MGSUB_DEFAULT_MAILINGLIST not set or ' +
                                        'passed directly to MailgunList')
 
-        self.list_email = force_text(list_email)
+        self.list_email = force_text(self.list_email)
 
         if hasattr(settings, 'MAILGUN_API_KEY'):
             self.api_key = settings.MAILGUN_API_KEY
