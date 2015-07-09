@@ -4,8 +4,9 @@ import six
 from django import forms
 from django.conf import settings
 from django.template import Context
-from django.template.loader import get_template, TemplateDoesNotExist
+from django.utils.encoding import force_text as ft
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template, TemplateDoesNotExist
 
 from mgsub.mailgun import MailgunList
 
@@ -49,10 +50,10 @@ class SignupForm(forms.Form):
     def send_welcome(self):
         email = self.cleaned_data['email']
 
-        subject = getattr(settings, 'MGSUB_WELCOME_SUBJECT', 'Welcome!')
-        from_address = getattr(settings, 'MGSUB_WELCOME_FROM',
-                               settings.SERVER_EMAIL)
-        reply_to = getattr(settings, 'MGSUB_WELCOME_REPLY_TO', None)
+        subject = ft(getattr(settings, 'MGSUB_WELCOME_SUBJECT', 'Welcome!'))
+        from_address = ft(getattr(settings, 'MGSUB_WELCOME_FROM',
+                               settings.SERVER_EMAIL))
+        reply_to = ft(getattr(settings, 'MGSUB_WELCOME_REPLY_TO', None))
         welcome_template = getattr(settings, 'MGSUB_WELCOME_TEMPLATE',
                                    'mgsub/welcome.html')
         welcome_plain = getattr(settings, 'MGSUB_WELCOME_TEMPLATE_PLAIN',
