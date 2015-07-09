@@ -5,7 +5,7 @@ import logging
 import requests
 
 from django.conf import settings
-from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
 
 logger = logging.getLogger('mgsub')
@@ -38,7 +38,7 @@ class MailgunList(object):
             raise ImproperlyConfigured('MGSUB_DEFAULT_MAILINGLIST not set or ' +
                                        'passed directly to MailgunList')
 
-        self.list_email = force_text(self.list_email)
+        self.list_email = _(self.list_email)
 
         if hasattr(settings, 'MAILGUN_API_KEY'):
             self.api_key = settings.MAILGUN_API_KEY
