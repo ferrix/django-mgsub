@@ -3,6 +3,9 @@ Mailgun list subscription for Django
 
 .. image:: https://travis-ci.org/ferrix/django-mgsub.svg?branch=master
     :target: https://travis-ci.org/ferrix/django-mgsub
+.. image:: https://coveralls.io/repos/github/ferrix/django-mgsub/badge.svg?branch=master
+    :target: https://coveralls.io/github/ferrix/django-mgsub?branch=master
+
 
 This Django module provides a `FormView` and a `Form` that subscribe the user
 to a list on `Mailgun`_.
