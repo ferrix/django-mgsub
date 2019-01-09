@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 
 import os
-import versioneer
-from pip.download import PipSession
-from pip.req import parse_requirements
 from setuptools import setup
+
+import versioneer
+
+
+def parse_requirements(filename):
+    lineiter = (line.strip() for line in open(filename))
+    return [line for line in lineiter if line and not line.startswith("#")]
 
 
 def get_requirements(filename):
     if not os.path.exists(filename):
         return []
 
-    install_reqs = parse_requirements(filename, session=PipSession())
-    return [str(ir.req) for ir in install_reqs]
+    return parse_requirements(filename)
 
 
 def get_package_data(package):
@@ -39,14 +42,14 @@ setup(name='django-mgsub',
       description='Subscribe Mailgun mailing lists from Django',
       long_description=README,
       author='Ferrix Hovi',
-      author_email='ferrix@codetry.fi',
+      author_email='ferrix+pypi@ferrix.fi',
       install_requires=get_requirements('requirements.txt'),
       tests_require=get_requirements('development.txt'),
       packages=['mgsub'],
       package_data=get_package_data('mgsub'),
       include_package_data=True,
       zip_safe=False,
-      url='https://github.com/codetry/mgsub/',
+      url='https://github.com/ferrix/mgsub/',
       license='MIT License',
       classifiers=[
           'Environment :: Web Environment',
